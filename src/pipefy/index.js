@@ -1,10 +1,9 @@
 
 module.exports = class {
-    
+
     constructor(token){
         this.token = token;
         this.isValidToken = false;
-        this._verifyToken(); //This function will be auto started when object has been created
     }
 
     _requestQuery = async (query = '') => {
@@ -39,14 +38,46 @@ module.exports = class {
         }    
     }
 
-    _verifyToken = async () =>{
+    verifyToken = async () =>{
 
-        //Return if token doesn't exist
-        if(!this.token) return;
+        //Return false if token doesn't exist
+        if(!this.token) return false;
 
         //Try make an empty request to verify if auth token is valid
         const isValid = await this._requestQuery();
         this.isValidToken = isValid.success;
+
+        //Return response
+        return isValid.success;
+    }
+
+    getOrganizations = async () => {
+
+        //Verify if object contains a valid token
+        if(this.isValidToken){
+
+            //Use GraphQL to request information from organizations associated with the user token
+            const res = await this._requestQuery(`
+            {
+                organizations {
+                  id
+                  name
+                }
+            }
+            `);
+
+            //Return data
+            return res;
+
+        }else{
+
+            //Return a error if not exists a token or is invalid
+            return {
+                "success": false,
+                "error": "Invalid token! Always use verifyToken() before anyone request."
+            }
+
+        }
     }
 }
 

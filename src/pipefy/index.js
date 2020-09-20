@@ -62,6 +62,10 @@ module.exports = class {
                 organizations {
                   id
                   name
+                  pipes {
+                    id
+                    name
+                  }
                 }
             }
             `);

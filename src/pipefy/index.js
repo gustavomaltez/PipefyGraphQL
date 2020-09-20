@@ -79,5 +79,40 @@ module.exports = class {
 
         }
     }
+
+    getUserInfos = async () => {
+        //Verify if object contains a valid token
+        if(this.isValidToken){
+
+            //Use GraphQL to request information from user associated with the token
+            const res = await this._requestQuery(`
+            {
+                me {
+                  id
+                  username
+                  name
+                  email
+                  avatarUrl
+                  created_at
+                  departmentKey
+                  locale
+                  timeZone 
+                  }
+            }
+            `);
+
+            //Return data
+            return res;
+
+        }else{
+
+            //Return a error if not exists a token or is invalid
+            return {
+                "success": false,
+                "error": "Invalid token! Always use verifyToken() before anyone request."
+            }
+
+        }
+    }
 }
 

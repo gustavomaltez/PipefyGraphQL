@@ -16,12 +16,21 @@ app.post('/account/infos', (req,res) => {
     //Create a new pipefy bridge
     const pipefy = new pipefyBridge(token);
 
-    // ...
-    return res.json({"example": 123})
+    //Verify if token is valid
+    pipefy.verifyToken().then((isValid) => {
+
+        //Return a error if token is invalid
+        if(!isValid) return res.json({"error": "Invalid token!"});
+
+        //If token is valid, return user infos
+        pipefy.getUserInfos().then((data) => {
+            return res.json(data)
+        })
+    })
 })
 
-app.post('/organizations', (req,res) => {
-    
+app.post('/account/organizations', (req,res) => {
+
     //Deconstruct access token
     const { token } = req.body;
 

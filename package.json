@@ -1,0 +1,22 @@
+{
+  "name": "PipefyGraphQL",
+  "author": {
+    "name": "Gustavo Maltez",
+    "url": "https://github.com/gustavomaltez"
+  },
+  "version": "0.1",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/main.js",
+    "start": "node src/main.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
